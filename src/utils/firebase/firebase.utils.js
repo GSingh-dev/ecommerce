@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "ecommerce-db-",
   storageBucket: "ecommerce-db-5651e.appspot.com",
   messagingSenderId: "202862778729",
-  appId: "1:202862778729:web:c535595ff3c1df756c45f8"
+  appId: "1:202862778729:web:"
 };
 
 // Initialize Firebase
