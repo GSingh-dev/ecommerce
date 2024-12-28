@@ -13,6 +13,7 @@ import { signOutUser } from "../../utils/firebase/firebase.utils";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
+import Footer from "../../components/footer/footer.component";
 
 function Navigation() {
     const { currentUser } = useContext(UserContext);
@@ -44,6 +45,7 @@ function Navigation() {
             </NavigationContainer>
 
             <Outlet />
+            <Footer/>
 
         </Fragment>
     )
