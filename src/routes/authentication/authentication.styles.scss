@@ -1,6 +1,61 @@
-.authentication-container{
+// .authentication-container{
+//      display: flex;
+//      justify-content: space-between;
+//      width: 900px;
+//      margin: 30px auto;
+// }
+
+
+.authentication-container {
      display: flex;
      justify-content: space-between;
-     width: 900px;
-     margin: 30px auto;
-}
+     width: 100%; /* Full width of its parent container */
+     max-width: 900px; /* Maximum width of 900px for larger screens */
+     margin: 30px auto; /* Centering the container with margin */
+     padding: 0 20px; /* Adding some horizontal padding for smaller screens */
+     box-sizing: border-box; /* Ensures padding is included in the width */
+     flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+   }
+   
+   @media (max-width: 1024px) {
+     .authentication-container {
+       width: 90%; /* Reduce the width to 90% on tablets */
+       margin: 20px auto; /* Reduced margin for tablets */
+     }
+   }
+   
+   @media (max-width: 768px) {
+     .authentication-container {
+       width: 100%; /* Full width on mobile screens */
+       flex-direction: column; /* Stack the items vertically */
+       align-items: center; /* Center align items vertically */
+       padding: 20px; /* Adequate padding on mobile for spacing */
+       margin: 15px 10px; /* Adjusted margin for a more compact look */
+     }
+   
+     /* Space between each form element on mobile */
+     .authentication-container > * {
+       margin-bottom: 20px; /* Adds margin between form elements */
+     }
+   
+     /* Optionally, reduce the margin for the last item in the container */
+     .authentication-container > *:last-child {
+       margin-bottom: 0;
+     }
+   }
+   
+   @media (max-width: 480px) {
+     .authentication-container {
+       padding: 15px; /* Adjusted padding for smaller screens */
+       margin: 10px 5px; /* Reduced margin for a tighter fit */
+     }
+   
+     .authentication-container > * {
+       margin-bottom: 15px; /* Adjust margin for mobile for better spacing */
+     }
+   
+     .authentication-container > *:last-child {
+       margin-bottom: 0; /* Remove bottom margin for the last item */
+     }
+   }
+   
