@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { signInWithGooglePopup, createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import "./sign-in-form.styles.scss";
-import { userContext } from "../../contexts/user.context";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASSES }from "../button/button.component";
 
 const defaultFormFields = {
     email: "",
@@ -15,15 +14,12 @@ function SignInForm() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
     // console.log(formFields);
-    const {setCurrentUser} = useContext(userContext);
-
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
 
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
     }
 
     const handleSubmit = async (event) => {
@@ -33,6 +29,7 @@ function SignInForm() {
         try {
             const user = await signInAuthUserWithEmailAndPassword(email, password);
             // console.log(response);
+            // setCurrentUser(user);
             resetFormFields();
         } catch (error) {
             console.log(error.code);
@@ -67,8 +64,8 @@ function SignInForm() {
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password} />
 
                 <div className="buttons-container">
-                    <Button type="submit" buttonType="inverted" >SIGN IN</Button>
-                    <Button type="button" buttonType="google" onClick={signInWithGoogle} >GOOGLE SIGN IN</Button>
+                    <Button type="submit" buttonType={BUTTON_TYPE_CLASSES.inverted} >SIGN IN</Button>
+                    <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle} >GOOGLE SIGN IN</Button>
                 </div>
 
 

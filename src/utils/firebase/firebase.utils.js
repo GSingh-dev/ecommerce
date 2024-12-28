@@ -1,23 +1,25 @@
+// import env from "dotenv";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
+import {
+    getAuth,
+    signInWithRedirect,
+    signInWithPopup,
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc, writeBatch, collection, getDocs, query } from "firebase/firestore"
 
+// env.config();
 const firebaseConfig = {
-<<<<<<< HEAD
-    apiKey: "AIzaSyA2BCluW4c1Gz0Img3Z1_1aHXI4NrCj9rk",
-    authDomain: "ecommerce-db-5651e.firebaseapp.com",
-    projectId: "ecommerce-db-5651e",
-    storageBucket: "ecommerce-db-5651e.appspot.com",
-    messagingSenderId: "202862778729",
-    appId: "1:202862778729:web:c535595ff3c1df756c45f8"
-=======
-  apiKey: "xxxx",
-  authDomain: "ecommerce-db.firebaseapp.com",
-  projectId: "ecommerce-db-",
-  storageBucket: "ecommerce-db-5651e.appspot.com",
-  messagingSenderId: "202862778729",
-  appId: "1:202862778729:web:"
->>>>>>> abaeca28a51d302f617488a983e81ea19da46d7b
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
 };
 
 // Initialize Firebase
@@ -34,8 +36,36 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
 
 
-
 export const db = getFirestore();
+
+export const addCollectionsAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object);
+    });
+
+    await batch.commit();
+    console.log('done');
+
+}
+
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, "categories");
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {});
+
+    return categoryMap;
+
+}
 
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) => {
@@ -78,3 +108,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 }
 
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
